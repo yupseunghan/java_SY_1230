@@ -26,7 +26,7 @@ public class Ex12_Lotto {
 		}
 		switch(count) {
 		case 6 : System.out.println("1등"); break;
-		case 5 : if(Ex11_ArrayRandom2.contains(mylotto, bonus)) {
+		case 5 : if(contains(mylotto, bonus)) {
 			System.out.println("2등"); break;
 		}else System.out.println("3등"); break;
 		case 4 : System.out.println("4등"); break;
