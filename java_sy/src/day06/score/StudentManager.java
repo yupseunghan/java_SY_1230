@@ -1,4 +1,4 @@
-package score;
+package day06.score;
 
 public class StudentManager {
 	private Student[] std = new Student[5];
@@ -11,6 +11,7 @@ public class StudentManager {
 			return;
 		Student tmp[] = new Student[std.length+5];
 		System.arraycopy(std, 0, tmp, 0, std.length);
+		std =tmp;
 	}
 	void insertStudent(String name, int score) {
 		std[count++] = new Student(name,score);

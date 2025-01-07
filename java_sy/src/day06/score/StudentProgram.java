@@ -1,4 +1,4 @@
-package score;
+package day06.score;
 
 import java.util.Scanner;
 
