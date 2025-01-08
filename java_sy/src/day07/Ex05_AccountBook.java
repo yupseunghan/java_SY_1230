@@ -2,7 +2,6 @@ package day07;
 
 import java.util.Scanner;
 
-import day02.s;
 
 /*
  * 메뉴
@@ -38,13 +37,37 @@ public class Ex05_AccountBook {
 			menu=sc.next().charAt(0);
 			switch(menu) {
 			case '1': count=insertItem(items, count);break;
-			case '2': break;
-			case '3': break;
+			case '2': updateItem(items, count);break;
+			case '3': count=deleteItem(items, count);break;
 			case '4': checkItem(items,count);break;
 			case '5':System.out.println("프로그램 종료합니다"); break;
 			default: System.out.println("잘못된 선택");
 			}
 		}while(menu!='5');
+	}
+
+	public static int deleteItem(Item[] items, int count) {
+		checkItem(items, count);
+		System.out.println("삭제할 내역의 번호를 선택하세요");
+		int index = sc.nextInt();
+		for(int i=index-1;i<count;i++)
+			items[i] = items[i+1];
+		return count-1;
+	}
+
+	public static void updateItem(Item[] items, int count) {
+		System.out.println("------------------");
+		checkItem(items, count);
+		System.out.print("수정할 내역의 번호를 선택 하세요");
+		int index= sc.nextInt();
+		if(items[index-1]==null||index > count||index<1) {
+			System.out.println("번호를 잘못 입력 혹은 해당항목이 없습니다");
+			return;
+		}
+			System.out.print("금액:");
+			int money=sc.nextInt();
+			items[index-1].update(money);
+			System.out.println("수정 완료");
 	}
 
 	private static void checkItem(Item[] items, int count) {
@@ -90,6 +113,9 @@ class Item{
 		this.content=content;
 		this.money=money;
 		this.date=date;
+	}
+	public void update(int money) {
+		this.money=money;
 	}
 	public void print() {
 		System.out.println(income+"/"+type+"/"+content+"/"+money+"/"+date);
