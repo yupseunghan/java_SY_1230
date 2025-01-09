@@ -33,17 +33,21 @@ public class Ex05_AccountBook {
 		Item[] items = new Item[10];
 		items[count++]= new Item("수입","연봉","초봉",3500,"2026-01-01");
 		do {
-			menulist();
+			menulist("가계부 등록","가계부 수정","가게부 삭제","가계부 조회","종료");
 			menu=sc.next().charAt(0);
-			switch(menu) {
-			case '1': count=insertItem(items, count);break;
-			case '2': updateItem(items, count);break;
-			case '3': count=deleteItem(items, count);break;
-			case '4': checkItem(items,count);break;
-			case '5':System.out.println("프로그램 종료합니다"); break;
-			default: System.out.println("잘못된 선택");
-			}
+			count = runMenu(menu, items, count);
 		}while(menu!='5');
+	}
+	public static int runMenu(char menu, Item[] items, int count) {
+		switch(menu) {
+		case '1': count=insertItem(items, count);break;
+		case '2': updateItem(items, count);break;
+		case '3': count=deleteItem(items, count);break;
+		case '4': checkItem(items,count);break;
+		case '5':System.out.println("프로그램 종료합니다"); break;
+		default: System.out.println("잘못된 선택");
+		}
+		return count;
 	}
 
 	public static int deleteItem(Item[] items, int count) {
@@ -75,8 +79,7 @@ public class Ex05_AccountBook {
 			items[i].print(i+1);
 		}
 	}
-
-	public static int insertItem(Item[] items, int count) {
+	public static Item inputItem() {
 		System.out.print("수입/지출: ");
 		String income=sc.next();
 		
@@ -93,15 +96,21 @@ public class Ex05_AccountBook {
 		System.out.print("날짜:");
 		sc.nextLine();
 		String date=sc.nextLine();
-
-		items[count]=new Item(income,type,content,money,date);
+		Item item = new Item(income, type, content, money, date);
+		return item;
+	}
+	public static int insertItem(Item[] items, int count) {
+		items[count]=inputItem();
 		return count+1;
 	}
 
-	private static void menulist() {
+	private static void menulist(String ...menu) {
 		System.out.println("---------------------------------------------");
-		System.out.println("메뉴\n1. 가게부 등록\n2. 가게부 수정\n3. 가게부 삭제\n4. 가게부조회\n5. 프로그램 종료");
-		System.out.print("메뉴 선택: ");
+	    System.out.println("메뉴");
+	    for (int i = 0; i < menu.length; i++) {
+	        System.out.println((i + 1) + ". " + menu[i]);
+	    }
+	    System.out.print("메뉴 선택: ");
 	}
 }
 class Item{
