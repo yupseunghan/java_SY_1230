@@ -2,6 +2,8 @@ package day07;
 
 import java.util.Scanner;
 
+import lombok.AllArgsConstructor;
+
 public class Ex04_StudentScore {
 	static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
@@ -121,6 +123,7 @@ public class Ex04_StudentScore {
 	}
 	
 }
+@AllArgsConstructor
 class Student{
 	private String name, sub;
 	private int score ,gr,cl,num;
