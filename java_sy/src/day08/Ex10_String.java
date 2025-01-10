@@ -19,7 +19,7 @@ public class Ex10_String {
 		index = str3.lastIndexOf(search);
 		System.out.println(str3+"에서 마지막 "+search+"의 위치는? "+index+"번지");
 		//contains 문자열이 있는지 없는지 알려줌
-		System.out.println(str3+"에 "+search+"가 있습니까? "+ str3.concat(search));
+		System.out.println(str3+"에 "+search+"가 있습니까? "+ str3.contains(search));
 	
 		System.out.println(str3+"의 길이"+str3.length());
 		
