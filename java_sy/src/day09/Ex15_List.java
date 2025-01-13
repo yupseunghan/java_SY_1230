@@ -51,6 +51,12 @@ public class Ex15_List {
 		//Objects.equals를 이용하여 같은 객체를 찾아서 번지를 반환
 		int index = list2.indexOf(new Point(-1,-1));
 		System.out.println(index);
+		
+		//1번지에 있는 좌표 정보를 가져와서 2,3으로 수정하는 작업
+		Point p = list2.get(1);
+		p.x=2;
+		p.y=3;
+		System.out.println(list2);
 	}
 }
 @ToString
