@@ -26,12 +26,7 @@ public class StudentMain {
 		 * 11. 과목 조회
 		 * 12. 성적 조회
 		 * */
-		Student[] stds;
-		Subject[] sbs;
-		int stdcount=0;
-		int subcount=0;
-		Student tmp = new Student();
-		System.out.println(tmp);
+		
 		
 	}
 
