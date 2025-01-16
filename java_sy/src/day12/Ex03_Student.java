@@ -47,8 +47,6 @@ public class Ex03_Student {
 		}while(menu!='4');
 	}
 	private static void delStudent(List<Student> list) {
-		
-		
 		System.out.println("삭제할 이름 입력: ");
 		sc.nextLine();
 		String name = sc.nextLine();
@@ -108,7 +106,6 @@ public class Ex03_Student {
 	private static void print(List<Student>list,Predicate<Student> p,boolean isCount) {
 		Stream<Student> stream = list.stream();
 		AtomicInteger index = new AtomicInteger(1);
-		
 		stream
 		.filter(p)
 		.forEach(s->{
