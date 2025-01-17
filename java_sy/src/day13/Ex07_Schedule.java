@@ -256,12 +256,12 @@ class Schedule implements Serializable{
 		this.toDo=toDo;
 		setDate(dateTime);
 	}
-	public boolean checkDate(String date) {
-		if(date == null || this.date==null)
+	public boolean checkDate(String date2) {
+		if(date2 == null || this.date==null)
 			return false;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String tmpDate = format.format(this.date);
-		return tmpDate.equals(date);
+		return tmpDate.equals(date2);
 	}
 	public String getDateStr() {
 		if(date == null)
