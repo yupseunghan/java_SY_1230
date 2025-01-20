@@ -1,5 +1,8 @@
 package day06.score;
 
+import lombok.Data;
+
+@Data
 public class StudentManager {
 	private Student[] std = new Student[5];
 	private int count =0;
@@ -25,5 +28,9 @@ public class StudentManager {
 		}
 		double ave = res / (double) count;
 		System.out.println("평균"+ave);
+	}
+	public boolean insertStudent(Homwork.ex2.Student setStd) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

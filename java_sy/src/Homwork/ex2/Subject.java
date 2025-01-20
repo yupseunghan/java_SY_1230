@@ -12,4 +12,8 @@ import lombok.NoArgsConstructor;
 public class Subject {
 	private int grade,semester;
 	private String name;
+	public void print() {
+		System.out.println("-----------------");
+		System.out.println(grade+"학년 "+semester+"학기 "+name);
+	}
 }
