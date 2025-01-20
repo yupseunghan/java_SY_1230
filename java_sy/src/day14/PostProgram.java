@@ -20,16 +20,25 @@ public class PostProgram {
 			case 1:insertPost(); break;
 			case 2:updatePost();break;
 			case 3:delPost(); break;
-			case 4:searchPost(); break;
+			//case 4:searchPost(); break;
 			default:System.out.println("잘못된 입력");
 			}
 		}while(menu != 0);
-		
-		
+	}
+	private void delPost() {
+		System.out.println("몇번째 게시글을 삭제 하시겠습니까?");
+		int num =sc.nextInt();
+		removeBuffer();
+		if(!postManager.numCheck(num)) {
+			System.out.println("잘못된 번호 입력");
+			return;
+		}
+		postManager.delPost();
 	}
 	private void updatePost() {
 		System.out.print("몇번째 게시글을 수정 하겠습니까?");
 		int num = sc.nextInt();
+		removeBuffer();
 		if(!postManager.numCheck(num)) {
 			System.out.println("잘못된 번호 입력");
 			return;

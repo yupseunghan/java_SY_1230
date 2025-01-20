@@ -40,10 +40,18 @@ public class PostManager {
 	public void updatePost(Post post) {
 		int index = posts.indexOf(new Post(post.getNum()));//찾은 다음에 포스트 겟인덱스 로 인덱스 알면 점 업데이트
 		if(index < 0) {
-			System.out.println("업데이트 실패");
+			System.out.println("게시글이 없습니다");
 			return;
 		}
-		
+		posts.get(index).update(post);
+	}
+	public void delPost(Post post) {
+		int index = posts.indexOf(new Post(post.getNum()));//찾은 다음에 포스트 겟인덱스 로 인덱스 알면 점 업데이트
+		if(index < 0) {
+			System.out.println("게시글이 없습니다");
+			return;
+		}
+		posts.remove(index);
 	}
 
 }

@@ -285,7 +285,13 @@ public class StudentMain {
 		//입력한 정보 객체 생성
 		Subject setSub = setSubject();
 		//리스트에서 생성한 객체 제거 성공하면 성공
+<<<<<<< Updated upstream
 		if(subjectList.remove(setSub)) {
+=======
+		int index = subjectList.indexOf(setSub);
+		if(index != -1) {
+			subjectList.remove(index);
+>>>>>>> Stashed changes
 			System.out.println("제거 완료");
 			return;
 		}

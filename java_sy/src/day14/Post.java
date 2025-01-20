@@ -31,6 +31,10 @@ public class Post {
 		this.writer = writer;
 		date = new Date();
 	}
+	public Post(int num) {
+		this.num=num;
+	}
+
 	public void print() {
 		System.out.println(num+". 제목:"+title+" content"+" 작성자:"+writer+" 작성일:"+getDateStr()
 		+" 조회수: "+view);
@@ -41,5 +45,14 @@ public class Post {
 			return null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		return sdf.format(date);
+	}
+
+	public void update(Post post) {
+		this.num=post.num;
+		this.title=post.title;
+		this.content=post.content;
+		this.view=post.view;
+		this.writer=post.writer;
+		count--;
 	}
 }
