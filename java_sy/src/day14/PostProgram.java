@@ -33,7 +33,7 @@ public class PostProgram {
 			System.out.println("잘못된 번호 입력");
 			return;
 		}
-		postManager.delPost();
+		
 	}
 	private void updatePost() {
 		System.out.print("몇번째 게시글을 수정 하겠습니까?");
