@@ -9,7 +9,7 @@ import lombok.Data;
 
 public enum Bank{
 	신한,국민,우리;
-	public static void printBank() {
+	public static void printBanks() {
 		Bank[] list = Bank.values();
 		for(int i=0;i<list.length;i++) {
 			System.out.println((i==0?"":", ")+list[i]);
