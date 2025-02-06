@@ -125,7 +125,7 @@ public class Ex01_Client {
 	}
 	private static void runAdminMenu(int menu) {
 		switch(menu) {
-		case 1:
+		case 1:                             
 			productInsert();
 			break;
 		case 2:
@@ -324,6 +324,7 @@ public class Ex01_Client {
 				System.out.println(p);
 			}
 		}
+		
 	}
 	
 }

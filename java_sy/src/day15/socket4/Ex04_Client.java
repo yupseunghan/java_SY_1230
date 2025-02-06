@@ -26,7 +26,6 @@ public class Ex04_Client {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
