@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>말줄임 예제</title>
+	<style>
+		.box{overflow:hidden;text-overflow:ellipsis}
+		/*1줄 말줄임*/
+		.box1{white-space: nowrap;}
+		/*2줄 말줄임*/
+		.box2{display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;}
+	</style>
+</head>
+<body>
+	<div class="box box1">
+		안녕하세요. 제 이름은 한승엽입니다. 만나서 반갑습니다
+		안녕하세요. 제 이름은 한승엽입니다. 만나서 반갑습니다
+	</div>
+	<div class="box box2">
+		안녕하세요. 제 이름은 한승엽입니다. 만나서 반갑습니다
+		안녕하세요. 제 이름은 한승엽입니다. 만나서 반갑습니다
+	</div>
+</body>
+</html>
