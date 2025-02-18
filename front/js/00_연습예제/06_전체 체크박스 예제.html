@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>전체 체크박스 예제</title>
+</head>
+<body>
+	<input type="checkbox" id="allCheck">
+	<label for="all">전체</label><br>
+	<input type="checkbox" name="email"><br>
+	<input type="checkbox" name="email"><br>
+	<input type="checkbox" name="email"><br>
+	<input type="checkbox" name="email">
+	<script>
+		//전체 체크박스 요소를 선택
+		const all = document.getElementById("allCheck");
+		//전체 체크박스를 제외한 다른 체크박스 요소들을 선택
+		const checkboxes = document.querySelectorAll("[name=email]");
+		//전체 체크박스를 change 이벤트 등록
+		all.addEventListener('change',()=>{
+			//전체 체크박스의 checked 값을 가져옴
+			let checked = all.checked;
+			checkboxes.forEach(checkbox=>{
+				checkbox.checked = checked;
+			});
+		});
+		checkboxes.forEach(checkbox=>{
+			checkbox.addEventListener('change',()=>{
+				let checked = checkbox.checked;
+
+				if(!checked){
+					all.checked=false;
+					return;
+				}
+				let selector ="[name=email]:checked";
+				let sameCheckboxes = document.querySelectorAll(selector);
+				if(sameCheckboxes.length == checkboxes.length){
+					all.checked=checked
+				}
+			});
+		})
+		
+	</script>
+</body>
+</html>
