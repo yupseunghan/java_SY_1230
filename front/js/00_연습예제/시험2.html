@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>시험2</title>
+	<style>
+		.error-message{
+			font-size: 15px; color: gray;
+		}
+		input{
+			background-color: transparent;
+		}
+		.container{
+			background-color: lightblue; 
+			padding: 20px 0;
+		}
+		.input-box{
+			display: flex; margin-top: 20px; margin-bottom: 20px;
+		}
+		.box{
+			border: 1px solid lightgray; background-color: lightgray;
+			width: 400px; padding: 20px;  margin: 0 auto;
+		}
+		input[type=text]:not([name^=emaill]){
+			width: 200px; box-sizing: border-box;
+			
+			border: 1px dashed black; border-width: 0 0 1px;
+		}
+		#email{
+			width: 117px;
+		}
+		.email-box{display:  flex; justify-content: space-between;}
+		.email-box input{
+			box-sizing: border-box;
+			border: 1px dashed black; border-width: 0 0 1px;
+			width: calc(50% -10px);
+		}
+		.form-left{
+			width: 150px;
+		}
+		.form-right{
+			width: 200px;
+		}
+		#signBtn{
+			width: 100%; background-color: lightgreen;
+			border: 1px solid lightgreen;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="input-box">
+				<label for="name" class="form-left">아이디</label>
+				<input type="text" id="id" class="form-right">
+			</div>
+			<div class="input-box">
+				<div class="form-left"></div>	
+				<div id="idError" class="error-message form-right"></div>
+			</div>
+			<div class="input-box">
+				<label for="name" class="form-left">패스워드</label>
+				<input type="text" id="pw" class="form-right">				
+			</div>
+			<div class="input-box">
+				<div class="form-left"></div>
+				<div id="pwError" class="error-message form-right"></div>	
+			</div>
+			<div class="input-box">
+				<label for="name" class="form-left">패스워드 확인</label>
+				<input type="text" id="pw2" class="form-right">				
+			</div>
+			<div class="input-box">
+				<div class="form-left"></div>	
+				<div id="pw2Error" class="error-message form-right"></div>
+			</div>
+			<div class="email-box">
+				<label for="name" class="form-left">이메일</label>
+				<input type="email" name="emaill" id="email" class="form-right">
+				<span>@</span>
+				<input type="email" name="emaill" id="email" class="form-right">
+			</div>
+			<div class="input-box">
+				<label for="name" class="form-left">주소</label>
+				<input type="text" id="address" class="form-right">	
+			</div>
+			<div class="input-box">
+				<div class="form-left"></div>
+				<input type="text" id="address" class="form-right">	
+			</div>
+			<button id="signBtn">가입</button>
+		</div>
+	</div>
+	<script>
+		const id = document.getElementById("id");
+		const pw = document.getElementById("pw");
+		const pw2 = document.getElementById("pw2");
+		const email = document.getElementById("email");
+
+		const idError = document.getElementById("idError");
+		const pwError = document.getElementById("pwError");
+		const pw2Error = document.getElementById("pw2Error");
+		const emailError = document.getElementById("emailError");
+		const addressError = document.getElementById("addressError");
+		const pwGuide=document.getElementById("pwGuide");
+
+
+		pw.addEventListener("focus",function(){
+			pwError.textContent="영문자 대/소문자 특수문자, 숫자 포함 8 ~ 32자";
+		});
+		function required(field, errorElement, errorMessage) {
+			if (field.value.trim() === "") {
+				errorElement.textContent = errorMessage;
+			} else {
+				errorElement.textContent = "";
+			}
+		}
+		
+		id.addEventListener("blur", function() {
+			required(id, idError, "필수 입력 항목입니다.");
+		});
+
+		pw.addEventListener("blur", function() {
+			required(pw, pwError, "필수 입력 항목입니다.");
+		});
+
+		pw2.addEventListener("blur", function() {
+			required(pw2, pw2Error, "필수 입력 항목입니다.");
+		});
+	</script>
+</body>
+</html>

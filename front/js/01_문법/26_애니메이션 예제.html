@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>애니메이션 css</title>
+	<link
+	rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+
+<body>
+	<h1 id="h1">클릭</h1>
+
+	<script>
+		document.getElementById('h1').addEventListener('click', function() {
+			// 애니메이션 클래스 추가
+			this.classList.add('animate__animated', 'animate__bounce');
+
+			// 애니메이션이 끝날 때마다 애니메이션 클래스 제거
+			this.addEventListener('animationend', function() {
+				this.classList.remove('animate__animated', 'animate__bounce');
+			}, { once: true }); // 한번만 실행되도록 설정
+		});
+	</script>
+</body>
+</html>
