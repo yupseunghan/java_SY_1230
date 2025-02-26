@@ -1,0 +1,68 @@
+create database comunity;
+use comunity;
+create table board(
+	Bo_num int primary key auto_increment,
+	Bo_title varchar(50) not null,
+    Bo_content longtext not null,
+    Bo_writer varchar(15) not null,
+    Bo_date datetime not null default current_timestamp,
+    Bo_view	int not null default 0
+);
+select* from board;
+insert into board(Bo_title,Bo_content,Bo_writer) values
+("인사","하이루","def123"),("경례","필송","rok123"),("진짜","he is real","real123");
+
+#1번 게시글을 클릭해서 게시글 내용을 조회할 떄 필요한 쿼리
+#조회수 증가, 게시글 내용을 조회
+#조회수 증가
+update board
+set
+	Bo_view = Bo_view + 1
+where
+	Bo_num=2;
+#abc123 회원이 1번 게시글을 삭제할 떄 쿼리
+delete from board where Bo_num=1;
+truncate table board;
+
+#2025년 2월 25일에 작성된 게시글을 조회하는 쿼리
+select* from board where Bo_date between "2025-02-25" and "2025-02-25 23:59:59";
+#제목이나 내용에 "안녕"을 포함하는 게시글을 조회하는 쿼리
+select* from board where Bo_content like '%안녕%' or Bo_title like '%안녕%';
+select* from board where concat(Bo_title,Bo_content) like '%안녕%';
+/*
+select [distinct]
+	속성1,...,속성n
+from
+	테이블명
+where
+	[조건 생략가능]
+order by 속성A [ASC | DESC] ,[속성B [ASC | DESC]]]
+ASC : 오름차순 , 생략하면 기본 ASC
+DESC : 내림차순
+[group by 속성1[,속성2,..]
+[having 조건]
+-결과들을 그룹으로 묶어서 처리할 때
+	-1학년 1반 학생수는?
+	-각하년별 각바느이 학생수는?
+    -각학년의 학생수는?
+-group by는 묶는 기준
+	-학년, 반을 기준으로 묶음
+    -학년, 반을 기준으로 묶음
+	-학년을 기준으로 묵음
+-having절은 집계함수에 조건을 걸때 사용
+집계함수
+-count(속성) : 결과의 개수를 셈 => 결과가 몇행인지를 반환
+-sum(속성) : 속성의 합
+-avg(속성) : 속성의 평균
+-min(속성) : 속성의 최소값
+-max(속성) : 속성의 최대값 
+
+[limit 번지, 개수]
+-검색 결과에서 번지부터 개수만큼 가져옴
+-번지는 0번지.
+-번지를 생략할 수 있고, 생략하면 0번지
+*/
+#최신글을 조회하는 쿼리 => 등록된 날짜가 최근 => 날짜 수능로 정렬
+select* from board order by Bo_date desc;
+#인기글을 조회하는 쿼리=> 조회수가 높은 글이 인기글 1개만 보여주기
+select* from board order by Bo_view desc limit 1;

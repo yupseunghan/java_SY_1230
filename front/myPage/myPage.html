@@ -5,11 +5,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>op.rft</title>
 	<style>
-		
+		body{
+			background-color: #041562;
+		}
 		#header {
 			height: 100px;
-			position: fixed;
-			margin-top: 20px;
+			position: fixed;	
 			top: 0;
 			left: 0;
 			width: 100%;
@@ -22,8 +23,8 @@
 			display: flex;
 		}
 		#header img{
-			height: 150px; 
-			object-fit: contain;
+			height: 100%;
+			object-fit: cover;
 			z-index: -1;
 		}
 		#search-btn{
@@ -37,11 +38,12 @@
 			height: 80px;
 			font-size: 50px;
 			box-shadow: 3px 2px 1px #041562;
-			border-radius: 5px; border: none;
+			border-radius: 150px; border: none;
 			width: 150px; transition: all 1s;
 			color: #041562;
 		}
 		#container {
+			height: 5000px;
 			border: 2px solid black;
 			margin-top: 200px;
 			margin-bottom: 20px;

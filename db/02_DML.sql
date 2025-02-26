@@ -114,3 +114,71 @@ select* from student.student where St_name like concat('홍','%');
 select* from student.student where St_name like '%길%';
 #성이 홍씨이고 이름이 3글자인 학생들을 조회하는 쿼리
 select* from student.student where St_name like '홍__';
+insert into student.student(St_grade,St_class,St_num,St_name) values
+(2,1,2,"김길동"),(2,1,1,"가길동"),(2,1,3,"나길동"),(2,2,1,"이길동"),(2,2,2,"박길동"),
+(2,2,3,"하길동"),(2,3,1,"하니"),(2,3,2,"가니"),(2,3,3,"둘리"),
+(3,1,2,"김길동"),(3,1,1,"가길동"),(3,1,3,"나길동"),(3,2,1,"이길동"),(3,2,2,"박길동"),
+(3,2,3,"하길동"),(3,3,1,"하니"),(3,3,2,"가니"),(3,3,3,"둘리");
+insert into student.subject(Sj_grade,Sj_semster,Sj_name) values
+(1,1,"국어"),(1,1,"영어"),(1,1,"수학"),
+(1,2,"국어"),(1,2,"영어"),(1,2,"수학"),
+(2,1,"국어"),(2,1,"영어"),(2,1,"수학"),
+(2,2,"국어"),(2,2,"영어"),(2,2,"수학"),
+(3,1,"국어"),(3,1,"영어"),(3,1,"수학"),
+(3,2,"국어"),(3,2,"영어"),(3,2,"수학");
+select*from student.score;
+insert into student.score(Sc_St_key,Sc_Sj_num,Sc_score) values
+(1,1,100),(1,2,100),(1,3,100), #1학년 1반 1번 학생 국영수 성적
+(3,1,90),(3,2,80),(3,3,70),
+(2,1,10),(2,2,40),(2,3,60),
+(5,1,100),(5,2,100),(5,3,100),
+(6,4,100),(6,5,100),(6,6,100),
+(7,4,100),(7,5,100),(7,6,100),
+(8,4,100),(8,5,100),(8,6,100),
+(9,4,100),(9,5,100),(9,6,100),
+(10,4,100),(10,5,100),(10,6,100),
+(11,4,100),(11,5,100),(11,6,100);
+#3학년, 2학년, 1학년 순으로 조회하고 학년이 같은 경우 1반 2반 순 조화 , 반이 같은경우 1번 2번 순 조회
+select* from student order by St_grade desc ,St_class,St_num;
+
+#3학년 학생들을 이름순으로 정렬하고, 이름이 같으면 반, 번호,순으로 오름차순으로 정렬하는 쿼리
+select* from student where St_grade=3 order by St_name,St_class,St_num;
+
+#3학년 학생중 번호가 2에 가까운 학생 순으로 정렬
+select* ,ABS(St_num -2) as num from student where St_grade=3 order by num,St_num;
+
+#한 페이지에 학생 3명의 정보를 조회하는 페이지가 있고, 학생 등록순으로 조회를 한다.
+#이 때 3페이지에서 조회 가능한 학생들을 선택하는 쿼리
+select* from student /*order 생략 가능 by St_key*/ limit 6,3;
+#1학년 1반의 학생수를 조회
+select count(*) as"1학년 1반 하생 수" from student where St_grade=1 and St_class=1;
+# 각학년 각반의 학생수를 조회
+select St_grade,St_class,count(St_key) as"학생수"
+ from student group by St_grade,St_class;
+#각학년별 학생수 조회
+select St_grade,count(*) as "학생수" from student group by St_grade;
+#학생수가 5명 이상인 학년들을 조회
+select St_grade,count(*) as `학생수` from student group by St_grade having`학생수` >= 5;
+
+#group by가 있는 쿼리에서 조건이 필요하면 무조건 having절에 써야한다 : xxxxxxxxxxxxxxxx
+#조건에 집계함수가 없으면 where절, 있으면 having절
+drop database if exists student;
+create database if not exists student;
+select* from student.subject;
+create table student.subject(
+	Sj_num int primary key auto_increment,
+    Sj_grade int not null default 1,
+    Sj_semster enum("1","2") not null default "1",
+    Sj_name varchar(10) not null,
+    check(Sj_grade in(1,2,3))
+);
+
+create table student.score(
+	Sc_num int primary key auto_increment,
+    Sc_St_key int not null,
+    Sc_Sj_num int not null,
+    Sc_score int not null default 0,
+    check(Sc_score between 0 and 100),
+    foreign key(Sc_St_key) references student.student(St_key),
+    foreign key(Sc_Sj_num) references student.subject(Sj_num)
+);
