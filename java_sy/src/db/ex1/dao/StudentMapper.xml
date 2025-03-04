@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="db.ex1.dao.StudentDAO">
+	<!-- 내가 작성하려는 DML에 맞게 태그를 선택
+	select문을 쓴다 => select 태그
+		-id는 DAO의 메소드명을 작성
+		-메소드 오버로딩이 x
+		-select태그의 경우 resultType, resultMap을 지정해야 한다.
+			-resultType : xxxVo를 그대로 사용하는 경우
+			-resultMap : xxxVo와 검색 결과가 일치하지 않아 변형해야 하는 경우, 서브 쿼리를 실행해야 하는 경우
+	-->
+	<select id="selectStduentList" resultType="db.ex1.model.vo.StudentVO">
+		select * from student
+	</select>
+	<select id="selectStduent" resultType="db.ex1.model.vo.StudentVO">
+		select *from student where st_grade = #{grade} and st_class= #{classNum} and st_num= #{num}
+	</select>
+	<select id="selectStudent2" resultType="db.ex1.model.vo.StudentVO">
+		select *from student where st_grade = #{std.st_grade} and st_class= #{std.st_class} and st_num= #{std.st_num}
+	</select>
+	<insert id="insertStudent" useGeneratedKeys="true" keyProperty="std.st_key">
+		insert into student(ST_GRADE, ST_CLASS, ST_NUM, ST_NAME) VALUE(#{std.st_grade},#{std.st_class},#{std.st_num},#{std.st_name});
+	</insert>
+	<update id="updateStudentName">
+		update student set st_name = #{std.st_name}
+		where st_grade = #{std.st_grade} and st_class=#{std.st_class} and st_num=#{std.st_num}
+	</update>
+	<delete id="deleteStudent">
+		delete from student where st_grade = #{std.st_grade} and st_class=#{std.st_class} and st_num=#{std.st_num}
+	</delete>
+</mapper>
