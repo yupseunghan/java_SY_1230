@@ -11,7 +11,7 @@
 #   - 테이블명만 쓰면 선택된 DB에 따라 동작되지 않을 수 있음. 
 USE STUDENT;
 INSERT INTO STUDENT (ST_GRADE, ST_CLASS, ST_NUM, ST_NAME)VALUE(1, 1, 1, "홍길동");
-
+select* from student where ST_GRADE =3 and ST_CLASS=3 and ST_NUM=11;
 # INSERT INTO 테이블명(속성1, ..., 속성N) VALUE(값1, ..., 값N)
 #   - 일부 속성 값을 생략할 때 사용
 #   - 생략할 수 있는 속성들
