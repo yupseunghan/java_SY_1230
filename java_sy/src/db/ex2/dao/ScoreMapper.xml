@@ -22,7 +22,7 @@
 			sc_st_key = #{score.key} and sc_sj_num =#{score.subject.num}
 	</select>
 	<insert id="insertScore">
-		insert into score(sc_st_key,sc_sj_num,sc_score) values(#{score.key},#{score.num},#{score.score})
+		insert into score(sc_st_key,sc_sj_num,sc_score) values(#{score.key},#{score.subject.num},#{score.score})
 	</insert>
 	<update id="updateScore">
 		update score
