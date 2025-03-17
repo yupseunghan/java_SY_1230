@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import kr.kh.spring.model.dto.PersonDTO;
 
 /*@Controller
  * => HandletMapping에 url을 등록하기 위한 어노테이션
@@ -29,7 +33,9 @@ public class HomeController {
 	 * */
 	//@RequestMapping(value = "/", method = RequestMethod.GET)
 	@GetMapping("/")
-	public String home(Locale locale, Model model) {
+	public String home(Locale locale, Model model, String name,Integer age) {
+		System.out.println("화면에서 보낸 이름: "+name);
+		System.out.println("화면에서 보낸 나이: "+age);
 		/*화면에 데이터를 전송하는 방법
 		 * 	-Model 객체를 이용하여 전송
 		 * 	-addAttribute("화면에서 쓸 이름", 데이터);
@@ -44,5 +50,26 @@ public class HomeController {
 		
 		return "home";
 	}
-	
+	/*메소드 매개변수에 객체를 넣어주면, 맵핑이 되든 안되든 기본 생성자를 이용하여 객체를 만듬
+	 * => 화면에서 보낸 변수의 이름과 같은 필드가 있으면 자동으로 맵핑이 되어 값이 변경됨.
+	 * 		이때 setter를 호출
+	 * */
+	@RequestMapping("/send")
+	public String home2(Model model,PersonDTO person) {
+		System.out.println("send 화면에서 보낸 이름과 나이: "+person);
+		/*서버에서 화면으로 객체를 전송*/
+		model.addAttribute("person",person);
+		return"sample/send";
+	}
+	@GetMapping("/{name}/{age}")
+	public String nameAge(@PathVariable("name")String name1, @PathVariable("age")int age1) {
+		System.out.println("화면에서 전송한 이름 : " + name1);
+		System.out.println("화면에서 전송한 이름 : " + age1);
+		return "sample/send";
+	}
+	@GetMapping("/redirect")
+	public String redirect(PersonDTO person) {
+		System.out.println(person);
+		return "redirect:/send";
+	}
 }
