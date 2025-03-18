@@ -1,5 +1,8 @@
-package kr.kh.spring;
+package kr.kh.spring.controller;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -59,17 +62,26 @@ public class HomeController {
 		System.out.println("send 화면에서 보낸 이름과 나이: "+person);
 		/*서버에서 화면으로 객체를 전송*/
 		model.addAttribute("person",person);
-		return"sample/send";
+		return"/sample/send";
 	}
 	@GetMapping("/{name}/{age}")
 	public String nameAge(@PathVariable("name")String name1, @PathVariable("age")int age1) {
 		System.out.println("화면에서 전송한 이름 : " + name1);
 		System.out.println("화면에서 전송한 이름 : " + age1);
-		return "sample/send";
+		return "/sample/send";
 	}
 	@GetMapping("/redirect")
 	public String redirect(PersonDTO person) {
 		System.out.println(person);
-		return "redirect:/send";
+		return "/redirect:/send";
+	}
+	@GetMapping("/jstl")
+	public String jstl(Model model) {
+		List<String> list = Arrays.asList("사과","참외","수박","바나나"); 
+		model.addAttribute("str","<h1>서버에서 보낸 데이터입니다만.</h1>");
+		model.addAttribute("age",20);
+		model.addAttribute("list",list);
+		model.addAttribute("date",new Date());
+		return"/sample/jstl";
 	}
 }
