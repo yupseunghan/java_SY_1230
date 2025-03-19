@@ -6,4 +6,16 @@
 	<select id="getPostList" resultType="kr.kh.spring.model.vo.PostVo">
 		select * from post order by po_num desc;
 	</select>
+	<select id="selectBoardList" resultType ="kr.kh.spring.model.vo.BoardVo">
+		select* from board;
+	</select>
+	<insert id="insertBoard">
+		insert into board(bo_name) values(#{bo_name});
+	</insert>
+	<delete id="deleteBoard">
+		delete from board where bo_num=#{bo_num};
+	</delete>
+	<update id="updateBoard">
+		update board set bo_name=#{board.bo_name} where bo_num = #{board.bo_num};
+	</update>
 </mapper>
