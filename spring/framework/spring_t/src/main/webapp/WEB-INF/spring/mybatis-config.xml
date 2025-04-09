@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.kh.spring.model.vo.PostVO" alias="PostVO"/>
+		<typeAlias type="kr.kh.spring.model.vo.BoardVO" alias="BoardVO"/>
+		<typeAlias type="kr.kh.spring.model.vo.MemberVO" alias="MemberVO"/>
+		<typeAlias type="kr.kh.spring.model.vo.FileVO" alias="FileVO"/>
+		<typeAlias type="kr.kh.spring.model.vo.CommentVO" alias="CommentVO"/>
+		<typeAlias type="kr.kh.spring.model.vo.LikeVO" alias="LikeVO"/>
+	</typeAliases>
+</configuration>

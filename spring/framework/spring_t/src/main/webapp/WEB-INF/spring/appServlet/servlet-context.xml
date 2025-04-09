@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="/WEB-INF/spring/config.properties" />
+	<annotation-driven />
+
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/download/**" location="file:///D:/uploads/" />
+
+	<!-- 
+	- 기본 뷰 리졸버
+	  - 디스패처에게 전달 받은 문자열을 가공해서 view를 선택 함.
+	  - 예외로 redirect:, forward:인 경우는 view를 선택하지 않음
+	  - prefix : 받은 문자열 앞에 붙일 문자열
+	  - suffix : 받은 문자열 뒤에 붙일 문자열 
+	  - 기본 경로는 webapp부터 시작
+	  
+	 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 타일즈 뷰 리졸버  -->
+	<beans:bean id="tilesViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	    <beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+	    <beans:property name="order" value="1" /><!-- 순서를 우선으로 지정 -->
+	</beans:bean>
+	     
+	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+	    <beans:property name="definitions">
+	        <beans:list>
+	            <beans:value>/WEB-INF/spring/tiles-def.xml</beans:value>
+	        </beans:list>
+	    </beans:property>
+	</beans:bean>
+	
+	<context:component-scan base-package="kr.kh.spring.*" />
+	
+	<!-- 인터셉터 등록 -->
+	<beans:bean id="loginInterceptor" class="kr.kh.spring.interceptor.LoginInterceptor"/>
+	<beans:bean id="adminInterceptor" class="kr.kh.spring.interceptor.AdminInterceptor"/>
+	<beans:bean id="guestInterceptor" class="kr.kh.spring.interceptor.GuestInterceptor"/>
+	<beans:bean id="memberInterceptor" class="kr.kh.spring.interceptor.MemberInterceptor"/>
+	<beans:bean id="autoLoginInterceptor" class="kr.kh.spring.interceptor.AutoLoginInterceptor"/>
+	<beans:bean id="prevUrlInterceptor" class="kr.kh.spring.interceptor.PrevUrlInterceptor"/>
+	
+	<!-- 인터셉터 맵핑 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/login"/>
+			<beans:ref bean="prevUrlInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:ref bean="autoLoginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/post/insert"/>
+			<mapping path="/post/delete/*"/>
+			<mapping path="/post/update/*"/>
+			<beans:ref bean="memberInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<!-- /login(get, post)를 갔다 올때마다 LoginInterceptor가 실행  -->
+			<mapping path="/login"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin/**"/>
+			<beans:ref bean="adminInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/login"/>
+			<mapping path="/signup"/>
+			<beans:ref bean="guestInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	<!-- 업로드 파일 용량 설정-->
+	<beans:bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 업로드 최대 크기 10Mb -->
+		<beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean>
+	<!-- 업로드할 파일 경로 -->
+	<beans:bean id="uploadPath" class="java.lang.String">
+		<beans:constructor-arg value="${file.location}"/>
+	</beans:bean>
+</beans:beans>
