@@ -1,17 +1,18 @@
+import { useState } from "react";
 
-
-function StateSample4(){
-	let title=["아침","점심","저녁","간식"];
-	return(
+function MapSample(){
+	let titles = ["아침", "점심", "저녁", "간식"];
+	return (
 		<div>
 			<ul>
 				{
-					title.map((v,i,arr)=>{
-						return <li>{v}</li>
+					titles.map((v, i, arr)=>{
+						return <li key={i}>{v}</li>
 					})
 				}
 			</ul>
 		</div>
-	);
+	)
 }
-export default StateSample4;
+
+export default MapSample;

@@ -1,0 +1,76 @@
+<!DOCTYPE html >
+<html 
+	lang="en" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{layout/layout.html}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>부트</title>
+</head>
+<body>
+	<main layout:fragment="content" class="container">
+		<h1 class="mt-3 mb-3">게시글 목록</h1>
+		<div class="mb-3 d-flex">
+			<a th:href="@{/post/list/0}" class="btn btn-outline-success mr-2">전체</a>
+			<a th:each="board : ${boardList}" th:text="${board.bo_name}" th:href="@{/post/list/{num}(num=${board.bo_num})}" class="btn btn-outline-success mr-2"></a>
+		</div>
+		<div>
+			<a th:href="@{/post/insert}" class="btn btn-outline-success mb-2">게시글 등록</a>
+		</div>
+		<form class="mb-3 input-group" th:action="@{/post/list/{num}(num=${bo_num})}">
+			<select name="type" class="form-control col-3">
+				<option value="1" th:selected="${pm.cri.type == '1'}">제목+내용</option>
+				<option value="2" th:selected="${pm.cri.type == '2'}">작성자</option>
+			</select>
+			<input type="text" name="search" class="form-control col-7" th:value="${pm.cri.search}">
+			<button class="form-control bnt btn-outline-success col-2">검색</button>
+		</form>
+		<table class="table table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
+					<th>추/비추</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="post : ${list}">
+					<td th:text="${post.po_num}">1</td>
+					<td>
+						<a th:href="@{/post/detail/{num}(num=${post.po_num})}" th:text="${post.po_title}"></a>
+					</td>
+					<td th:text="${post.po_me_id}">작성자</td>
+					<td th:text="${post.po_date}">작성일</td>
+					<td th:text="${post.po_view}">조회수</td>
+					<td th:text="${post.po_up}+'/'+${post.po_down}">추/비추</td>
+				</tr>
+				<tr th:if="${list.size() == 0}">
+					<td colspan="6" class="text-center">등록된 게시글이 없습니다.</td>
+				</tr>
+			</tbody>
+		</table>
+		<ul class="pagination justify-content-center" th:if="${pm.totalCount != 0}">
+			<li class="page-item">
+				<a class="page-link" th:href="@{/post/list/{bo_num}(bo_num=${bo_num}, page=1, search=${pm.cri.search}, type=${pm.cri.type})}">처음</a>
+			</li>
+			<li class="page-item" th:if="${pm.prev}">
+				<a class="page-link" th:href="@{/post/list/{bo_num}(bo_num=${bo_num}, page=${pm.startPage -1 }, search=${pm.cri.search}, type=${pm.cri.type})}">이전</a>
+			</li>
+			<li class="page-item" th:each="i : ${#numbers.sequence(pm.startPage, pm.endPage)}" th:classappend="${pm.cri.page == i ? 'active' : ''}" >
+				<a class="page-link" th:href="@{/post/list/{bo_num}(bo_num=${bo_num}, page=${i}, search=${pm.cri.search}, type=${pm.cri.type})}" th:text="${i}">1</a>
+			</li>
+			<li class="page-item" th:if="${pm.next}">
+				<a class="page-link" th:href="@{/post/list/{bo_num}(bo_num=${bo_num}, page=${pm.endPage+1}, search=${pm.cri.search}, type=${pm.cri.type})}">다음</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" th:href="@{/post/list/{bo_num}(bo_num=${bo_num}, page=${pm.finalPage}, search=${pm.cri.search}, type=${pm.cri.type})}">끝</a>
+			</li>
+		</ul>
+	</main>
+</body>
+</html>

@@ -1,11 +1,14 @@
 import PropsSample from "./01_PropsSample";
 import StateSample from "./02_StateSample";
 import StateSample2 from "./03_StateSample2";
-import StateSample3 from "./04_StateSample3";
-import StateSample4 from "./06_StateSample4";
+import StateSample3 from "./04_ToDo";
 import MapSample from "./05_MapSample";
-import Readonly from "./07_Readonly";
+import StateSample4 from "./06_ToDoList";
+import ReadOnly from "./07_Readonly";
 import Convert from "./08_Convert";
+import Convert2 from "./09_Convert2";
+import Convert3 from "./10_Convert3";
+
 
 function App() {
   return (
@@ -22,9 +25,13 @@ function App() {
       <hr/>
       <StateSample4/>
       <hr/>
-      <Readonly/>
+      <ReadOnly/>
       <hr/>
       <Convert/>
+      <hr/>
+      <Convert2/>
+      <hr/>
+      <Convert3/>
     </div>
   );
 }

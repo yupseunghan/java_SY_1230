@@ -1,0 +1,183 @@
+<!DOCTYPE html >
+<html 
+	lang="en" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	layout:decorate="~{layout/layout.html}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>부트</title>
+</head>
+<body>
+	<main layout:fragment="content" class="container">
+		<h1>게시글 상세</h1>
+		
+		<div class="input-group form-group">
+			<div class="form-control col-3">제목</div>
+			<div class="form-control" th:text="${post.po_title}"></div>
+		</div>
+		<div class="input-group form-group">
+			<div class="form-control col-3">작성일</div>
+			<div class="form-control col-9" th:text="${post.po_date}"></div>
+		</div>
+		<div class="input-group form-group">
+			<div class="form-control col-3">작성자</div>
+			<div class="form-control" th:text="${post.po_me_id}"></div>
+		</div>
+		<div class="input-group form-group">
+			<div class="form-control col-3">조회수</div>
+			<div class="form-control" th:text="${post.po_view}"></div>
+		</div>
+		<div class="d-flex justify-content-center mb-3 btns-like">
+			<button class="btn btn-outline-success mr-2 btn-like" data-state="1">추천</button>
+			<button class="btn btn-outline-danger btn-like" data-state="-1">비추천</button>
+		</div>
+		<div class="form-group">
+			<div class="form-control" th:utext="${post.po_content}" style="height: auto; min-height: 100px;"></div>
+		</div>
+		<div>
+			<a class="form-control mb-2" 
+				th:each="file : ${list}" 
+				th:href="@{/file{num}(num=${file.fi_name})}" 
+				th:text="${file.fi_ori_name}" 
+				th:attr="download=${file.fi_ori_name}"></a>
+		</div>
+		<div class="d-flex justify-content-between">
+			<a th:href="@{/post/list/{num}(num=${post.po_bo_num})}" class="btn btn-outline-success">목록으로</a>
+			<th:block sec:authorize="isAuthenticated()">
+				<div th:if="${#authentication.principal.member.me_id == post.po_me_id}" class="d-flex">
+					<form th:action="@{/post/delete/{num}(num=${post.po_num})}" method="post">
+						<button class="btn btn-outline-danger">삭제</button>
+					</form>
+					<a th:href="@{/post/update/{num}(num=${post.po_num})}" class="btn btn-outline-danger ml-2">수정</a>
+				</div>
+			</th:block>
+		</div>
+		<hr>
+		<div class="comment-container">
+			<div class="comment-wrap">
+				<div class="comment-list form-group">
+					<div class="comment-item form-control" style="height: auto;">
+						<div>아이디</div>
+						<div>내용</div>
+					</div>
+				</div>
+			</div>
+			<form class="comment-insert-wrap input-group">
+				<textarea name="" class="form-control comment-content"></textarea>
+				<div class="input-group-append">
+					<button class="btn btn-outline-success">등록</button>
+				</div>
+			</form>
+		</div>
+		<script th:inline="javascript">
+			let cri = {
+				page : 1,
+				po_num : '[[${post.po_num}]]'
+			}
+			displayComments(1);
+
+			$(".comment-insert-wrap").submit(function(e){
+				e.preventDefault();
+				const content = $(".comment-content").val();
+				const comment = {
+					co_po_num : '[[${post.po_num}]]',
+					co_content : content
+				}
+				$.ajax({
+					url : "/comment/insert",
+					method : "post",
+					data : JSON.stringify(comment),
+					contentType : "application/json",
+					success : function(data){
+						if(data){
+							alert("댓글 등록!");
+							$(".comment-content").val('');
+							displayComments(1);
+						}else{
+							alert("댓글 등록 실패!")
+						}
+					}
+				})
+			})
+			function displayComments(page){
+				cri.page = page;
+				$.ajax({
+					url : "/comment/list",
+					method : "post",
+					data : JSON.stringify(cri),
+					contentType : "application/json",
+					success : function(data){
+						$(".comment-wrap").html(data);
+					}
+				})
+			}
+			function deleteComment(num){
+				$.ajax({
+					url : "/comment/delete",
+					method : "post",
+					data : {co_num : num},
+					success : function(data){
+						alert(data ? "댓글 삭제!" : "댓글 삭제 실패!");
+						displayComments(cri.page);
+					}
+				})
+			}
+		</script>
+
+		<script th:inline="javascript">
+			displayLikeBtns();
+			
+			$(document).on("click", ".btn-like", function(){
+				if([[${#authentication.principal}]] == "anonymousUser"){
+					alert("로그인이 필요한 서비스입니다.");
+					return;
+				}
+				let state = $(this).data("state");//$(this).attr("data-state");
+
+				//보내야할 데이터
+				let obj = {
+					li_state : state,
+					li_po_num : [[${post.po_num}]]
+				}
+				
+				$.ajax({
+					url : "/post/like",
+					method : "post",
+					data : JSON.stringify(obj),
+					contentType : "application/json",
+					success : function(data){
+						switch(data){
+						case 0:
+							alert(`${state == 1 ? '추천' : '비추천'} 취소!`);
+							break;
+						case 1:
+							alert("추천!")
+							break;
+						case -1:
+							alert("비추천!");
+							break;
+						}
+						displayLikeBtns();
+					},
+					error : function(xhr, status, error){
+						alert("로그인이 필요한 서비스입니다.");
+					}
+				})
+			});
+			function displayLikeBtns(){
+				$.ajax({
+					url : "/post/like",
+					method : "get",
+					data : { po_num : [[${post.po_num}]]},
+					success : function(data){
+						$(".btns-like").html(data);
+					}
+				})
+			}
+		</script>
+	</main>
+</body>
+</html>

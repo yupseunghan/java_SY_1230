@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.kh.boot.dao.CommentDAO">
+	<insert id="insertComment">
+		insert into comment(co_me_id, co_content, co_po_num, co_num, co_ori_num)
+		select #{co_me_id}, #{co_content}, #{co_po_num}, ifnull(max(co_num),0) + 1,
+		<choose>
+			<when test="co_ori_num == 0">
+				ifnull(max(co_num),0) + 1
+			</when>
+			<otherwise>
+				#{co_ori_num}
+			</otherwise>
+		</choose>
+		from comment
+	</insert>
+	<select id="selectCommentList" resultType="CommentVO">
+		select * from comment where co_po_num = #{po_num} 
+		order by co_ori_num desc, co_num
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="selectCountCommentList" resultType="int">
+		select count(*) from comment where co_po_num = #{po_num} 
+	</select>
+	<update id="deleteComment">
+		update comment set co_del = "Y" where co_num = #{co_num}
+	</update>
+</mapper>
