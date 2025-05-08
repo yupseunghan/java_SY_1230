@@ -100,4 +100,62 @@ public class ProductService {
 		int index = fileName.lastIndexOf(".");
 		return index < 0 ? null : fileName.substring(index);
 	}
+
+	public void deleteProduct(String pr_code) {
+		ProductVO product = productDAO.selectProduct(pr_code);
+		if(product == null){
+			return;
+		}
+		product.setPr_del("Y");
+		productDAO.updateProduct(product);
+	}
+
+	public ProductVO getProduct(String pr_code, boolean isdel) {
+		ProductVO product = productDAO.selectProduct(pr_code);
+		//삭제된 제품도 OK
+		if(isdel){
+			return product;
+		}
+		//삭제 안된 제품만 OK 
+		else if(product.getPr_del().equals("N")){
+			return product;
+		}
+		return null;
+	}
+
+	public boolean updateProduct(ProductVO product, MultipartFile thumb) {
+		if(product == null){
+			return false;
+		}
+		//썸네일 작업
+		try {
+			String fileName = thumb.getOriginalFilename();
+			if(thumb != null && fileName.length() != 0){
+				String suffix = getSuffix(fileName);
+				String newFileName = product.getPr_code() + suffix;
+				String thumbnail;
+				thumbnail = UploadFileUtils.uploadFile(uploadPath, newFileName, thumb.getBytes(),"product");
+				product.setPr_thumb(thumbnail);
+			}
+			return productDAO.updateProduct(product);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean updateAmount(ProductVO product) {
+		if(product == null){
+			return false;
+		}
+		ProductVO dbProduct = productDAO.selectProduct(product.getPr_code());
+		if(dbProduct == null){
+			return false;
+		}
+		if(product.getPr_amount() < 0 ){
+			return false;
+		}
+		dbProduct.setPr_amount(dbProduct.getPr_amount()+product.getPr_amount());
+		return productDAO.updateProduct(dbProduct);
+	}
 }
